@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"contacts-api/database"
 	"contacts-api/models"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -16,7 +16,10 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetContacts(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(models.Contacts)
+	var c []models.Contact
+	database.DB.Find(&c)
+
+	json.NewEncoder(w).Encode(c)
 }
 
 func GetContactById(w http.ResponseWriter, r *http.Request) {
@@ -24,14 +27,9 @@ func GetContactById(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["id"]
 
-	idConverted, err := strconv.Atoi(id)
-	if err != nil {
-		fmt.Fprintf(w, "Invalid Id")
-	}
+	c := models.Contact{}
 
-	for _, contact := range models.Contacts {
-		if contact.Id == idConverted {
-			json.NewEncoder(w).Encode(contact)
-		}
-	}
+	database.DB.First(&c, "id = ?", id)
+
+	json.NewEncoder(w).Encode(c)
 }

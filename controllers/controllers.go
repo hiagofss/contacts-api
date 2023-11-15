@@ -43,3 +43,33 @@ func CreateContact(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(newContact)
 }
+
+func EditContact(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	id := vars["id"]
+
+	c := models.Contact{}
+
+	database.DB.First(&c, "id = ?", id)
+
+	json.NewDecoder(r.Body).Decode(&c)
+
+	database.DB.Save(&c)
+
+	json.NewEncoder(w).Encode(c)
+}
+
+func DeleteContact(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	id := vars["id"]
+
+	c := models.Contact{}
+
+	database.DB.First(&c, "id = ?", id)
+
+	database.DB.Delete(&c)
+
+	json.NewEncoder(w).Encode(c)
+}

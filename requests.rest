@@ -3,6 +3,8 @@
 @host = {{baseUrl}}:{{port}}
 @contentType = application/json
 
+@contactId = d52b5e0c-ed3c-49e1-9137-d9094ef1014c
+
 ### Check api status
 # @name checkApiStatus
 GET {{host}}/
@@ -12,9 +14,7 @@ Accept: application/json
 # @name getAllContacts
 GET {{host}}/contacts
 
-### Get category by slug
-# @contactId = {{checkApiStatus.response.body.$.status}}
-@contactId = d52b5e0c-ed3c-49e1-9137-d9094ef1014c
+### Get contact by id
 GET {{host}}/contacts/{{contactId}}
 
 ### Post new contact
@@ -27,3 +27,17 @@ Content-Type: {{contentType}}
     "phone": "{{$randomInt 1111111111 9999999999}}",
     "email": "{{contactName}}@test.com"
 }
+
+### Edit new contact
+# @prompt contactName
+PUT {{host}}/contacts/{{contactId}}
+Content-Type: {{contentType}}
+
+{
+    "name": "{{contactName}}",
+    "phone": "{{$randomInt 1111111111 9999999999}}",
+    "email": "{{contactName}}@test.com"
+}
+
+### Get category by slug
+DELETE {{host}}/contacts/{{contactId}}

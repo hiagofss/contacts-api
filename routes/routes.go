@@ -13,5 +13,6 @@ func HandleRequest() {
 	r.HandleFunc("/", controllers.Home)
 	r.HandleFunc("/contacts", controllers.GetContacts).Methods("GET")
 	r.HandleFunc("/contacts/{id}", controllers.GetContactById).Methods("GET")
+	r.HandleFunc("/contacts", controllers.CreateContact).Methods("POST")
 	log.Fatal(http.ListenAndServe("localhost:8000", r))
 }

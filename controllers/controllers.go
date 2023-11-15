@@ -4,15 +4,15 @@ import (
 	"contacts-api/database"
 	"contacts-api/models"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Home")
-
+	json.NewEncoder(w).Encode(
+		map[string]string{"status": "ok"},
+	)
 }
 
 func GetContacts(w http.ResponseWriter, r *http.Request) {
@@ -32,4 +32,14 @@ func GetContactById(w http.ResponseWriter, r *http.Request) {
 	database.DB.First(&c, "id = ?", id)
 
 	json.NewEncoder(w).Encode(c)
+}
+
+func CreateContact(w http.ResponseWriter, r *http.Request) {
+	var newContact models.Contact
+
+	json.NewDecoder(r.Body).Decode(&newContact)
+
+	database.DB.Create(&newContact).Save(&newContact)
+
+	json.NewEncoder(w).Encode(newContact)
 }

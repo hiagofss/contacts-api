@@ -11,6 +11,7 @@ import (
 func HandleRequest() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", controllers.Home)
-	r.HandleFunc("/contacts", controllers.GetAllContacts)
+	r.HandleFunc("/contacts", controllers.GetContacts).Methods("GET")
+	r.HandleFunc("/contacts/{id}", controllers.GetContactById).Methods("GET")
 	log.Fatal(http.ListenAndServe("localhost:8000", r))
 }

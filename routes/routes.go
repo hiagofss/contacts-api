@@ -2,6 +2,7 @@ package routes
 
 import (
 	"contacts-api/controllers"
+	"contacts-api/middleware"
 	"log"
 	"net/http"
 
@@ -10,6 +11,7 @@ import (
 
 func HandleRequest() {
 	r := mux.NewRouter()
+	r.Use(middleware.ContentTypeMiddleware)
 	r.HandleFunc("/", controllers.Home)
 	r.HandleFunc("/contacts", controllers.GetContacts).Methods("GET")
 	r.HandleFunc("/contacts/{id}", controllers.GetContactById).Methods("GET")

@@ -3,8 +3,6 @@
 @host = {{baseUrl}}:{{port}}
 @contentType = application/json
 
-@contactId = d52b5e0c-ed3c-49e1-9137-d9094ef1014c
-
 ### Check api status
 # @name checkApiStatus
 GET {{host}}/
@@ -15,7 +13,9 @@ Accept: application/json
 GET {{host}}/contacts
 
 ### Get contact by id
-GET {{host}}/contacts/{{contactId}}
+@contactIdDynamic = {{getAllContacts.response.body.$[0].id}}
+
+GET {{host}}/contacts/{{contactIdDynamic}}
 
 ### Post new contact
 # @prompt contactName

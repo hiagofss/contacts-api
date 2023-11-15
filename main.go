@@ -1,6 +1,7 @@
 package main
 
 import (
+	"contacts-api/database"
 	"contacts-api/models"
 	"contacts-api/routes"
 )
@@ -10,6 +11,8 @@ func main() {
 		{Id: 1, Name: "John Doe", Phone: "1234567890", Email: "john.doe@test.com"},
 		{Id: 2, Name: "Jane Doe", Phone: "1234567890", Email: "jane.doe@test.com"},
 	}
+
+	database.ConnectDatabase()
 
 	routes.HandleRequest()
 }

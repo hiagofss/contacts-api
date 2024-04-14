@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  databse:
+  database:
     container_name: database
     image: postgres:16-alpine
     restart: always
@@ -14,5 +14,18 @@ services:
       - POSTGRES_DB=app
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    container_name: app
+    build: .
+    restart: always
+    tty: true
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=postgresql://admin:admin@database:5432/app
+
 volumes:
   postgres-data:

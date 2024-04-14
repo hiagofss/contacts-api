@@ -19,5 +19,5 @@ func HandleRequest() {
 	r.HandleFunc("/contacts", controllers.CreateContact).Methods("POST")
 	r.HandleFunc("/contacts/{id}", controllers.DeleteContact).Methods("DELETE")
 	r.HandleFunc("/contacts/{id}", controllers.EditContact).Methods("PUT")
-	log.Fatal(http.ListenAndServe("localhost:8000", handlers.CORS(handlers.AllowedOrigins([]string{"*"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"}))(r)))
+	log.Fatal(http.ListenAndServe("0.0.0.0:8000", handlers.CORS(handlers.AllowedOrigins([]string{"*"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"}))(r)))
 }
